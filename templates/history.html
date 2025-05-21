@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz History - QuizGenius{% endblock %}
+
+{% block head_extra %}
+<style>
+  .history-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+  .history-container h1 {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  .quiz-list {
+    list-style: none;
+    padding: 0;
+  }
+  .quiz-list-item {
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-left: 5px solid var(--accent-color, #28a745);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: box-shadow 0.3s ease;
+  }
+  .quiz-list-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .quiz-info h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color, #007bff);
+    font-size: 1.3rem;
+  }
+  .quiz-info p {
+    margin-bottom: 0.2rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  .quiz-actions a, .quiz-actions button {
+    margin-left: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    cursor: pointer; /* Ensure button has pointer */
+  }
+  .btn-view-quiz {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    border: 1px solid var(--primary-color, #007bff);
+  }
+  .btn-view-quiz:hover {
+    background-color: var(--primary-dark-color, #0056b3);
+    border-color: var(--primary-dark-color, #0056b3);
+    transform: translateY(-1px);
+  }
+  .btn-download-history-pdf {
+    background-color: #6c757d;
+    color: white;
+    border: 1px solid #6c757d;
+  }
+  .btn-download-history-pdf:hover {
+    background-color: #545b62;
+    border-color: #545b62;
+    transform: translateY(-1px);
+  }
+  .btn-delete-quiz {
+    background-color: #dc3545;
+    color: white;
+    border: 1px solid #dc3545;
+    font-family: inherit; /* Ensure button text has same font */
+  }
+  .btn-delete-quiz:hover {
+    background-color: #b02a37;
+    border-color: #b02a37;
+    transform: translateY(-1px);
+  }
+  .no-history {
+    text-align: center;
+    padding: 2rem;
+    color: #777;
+  }
+  .no-history i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #ccc;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="history-container">
+  <h1><i class="fas fa-history"></i> Your Quiz History</h1>
+
+  {% if user_quizzes and user_quizzes|length > 0 %}
+    <ul class="quiz-list">
+      {% for quiz in user_quizzes %}
+        <li class="quiz-list-item">
+          <div class="quiz-info">
+            <h3>{{ quiz.title }}</h3>
+            <p><i class="fas fa-calendar-alt"></i> Generated on: {{ quiz.generated_date.strftime('%B %d, %Y %I:%M %p') if quiz.generated_date else 'N/A' }}</p>
+            <p><i class="fas fa-file-alt"></i> Source: {{ quiz.source_filename if quiz.source_filename else ('Pasted Text' if quiz.source_text else 'N/A') }}</p>
+            <p><i class="fas fa-question-circle"></i> Questions: {{ quiz.questions|length }}</p>
+          </div>
+          <div class="quiz-actions">
+            <a href="{{ url_for('main.view_quiz', quiz_id=quiz.id) }}" class="btn-view-quiz"><i class="fas fa-eye"></i> View Quiz</a>
+            <a href="{{ url_for('main.download_quiz_pdf', quiz_id=quiz.id) }}" class="btn-download-history-pdf" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+            <form method="POST" action="{{ url_for('main.delete_quiz', quiz_id=quiz.id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this quiz?');">
+                <button type="submit" class="btn-delete-quiz"><i class="fas fa-trash-alt"></i> Delete</button>
+            </form>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="no-history">
+      <i class="fas fa-folder-open"></i>
+      <h2>No Quizzes Yet</h2>
+      <p>You haven't generated or saved any quizzes. <a href="{{ url_for('main.index') }}">Create one now!</a></p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Optional: Add JS for filtering or searching history if needed in the future.
+document.addEventListener('DOMContentLoaded', function() {
+    // Example: Add tooltips to buttons if desired
+});
+</script>
+{% endblock %}

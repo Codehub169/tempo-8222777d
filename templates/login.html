@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if is_signup %}Sign Up{% else %}Login{% endif %} - QuizGenius
+{% endblock %}
+
+{% block head_extra %}
+<style>
+  .login-container {
+    max-width: 450px;
+    margin: 4rem auto;
+    padding: 2.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  .login-container h1 {
+    color: #333;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+  }
+  .login-container .icon {
+    font-size: 3rem;
+    color: var(--primary-color, #007bff);
+    margin-bottom: 1.5rem;
+  }
+  .form-group label {
+    display: block;
+    text-align: left;
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+  .form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  .form-control:focus {
+    border-color: var(--primary-color, #007bff);
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .btn-submit {
+    background-color: var(--primary-color, #007bff);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .btn-submit:hover {
+    background-color: var(--primary-dark-color, #0056b3);
+    transform: translateY(-2px);
+  }
+  .toggle-link {
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .toggle-link a {
+    color: var(--primary-color, #007bff);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .toggle-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <i class="fas {% if is_signup %}fa-user-plus{% else %}fa-sign-in-alt{% endif %} icon"></i>
+  <h1>{% if is_signup %}Create Account{% else %}Welcome Back!{% endif %}</h1>
+  <p class="lead mb-4">{% if is_signup %}Join QuizGenius to start creating and saving your quizzes.{% else %}Log in to access your dashboard and quiz history.{% endif %}</p>
+  
+  <form method="POST" action="{% if is_signup %}{{ url_for('auth.signup') }}{% else %}{{ url_for('auth.login') }}{% endif %}">
+    {{ form.hidden_tag() if form and form.hidden_tag }} {# For CSRF token if using Flask-WTF #}
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+    </div>
+    {% if is_signup %}
+    <div class="form-group">
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" id="confirm_password" name="confirm_password" class="form-control" placeholder="Confirm your password" required>
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-submit">
+      <i class="fas {% if is_signup %}fa-user-plus{% else %}fa-sign-in-alt{% endif %}"></i> {% if is_signup %}Sign Up{% else %}Login{% endif %}
+    </button>
+  </form>
+  
+  <p class="toggle-link">
+    {% if is_signup %}
+      Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a>
+    {% else %}
+      Don't have an account? <a href="{{ url_for('auth.signup') }}">Sign up now</a>
+    {% endif %}
+  </p>
+</div>
+{% endblock %}

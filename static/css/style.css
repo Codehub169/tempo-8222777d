@@ -1,0 +1,402 @@
+/* General Body Styles */
+body {
+  font-family: 'Roboto Slab', serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f7f6; /* Light grayish background */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Variables for theming - can be overridden or extended */
+:root {
+  --primary-color: #007bff; /* Professional Blue */
+  --primary-dark-color: #0056b3;
+  --secondary-color: #6c757d; /* Muted Gray */
+  --accent-color: #28a745;   /* Success Green */
+  --accent-hover-color: #1e7e34;
+  --light-bg: #ffffff;
+  --card-bg: #f9f9f9;
+  --text-color: #333333;
+  --text-muted: #666666;
+  --border-color: #dee2e6;
+  --border-radius: 8px;
+  --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+  --input-focus-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.content-wrapper {
+  flex: 1; /* Makes sure footer stays at bottom */
+  padding-top: 2rem; 
+  padding-bottom: 2rem;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-color);
+  margin-top: 0;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--primary-dark-color);
+  text-decoration: underline;
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--light-bg);
+  padding: 1rem 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  border-bottom: 1px solid var(--border-color);
+}
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-brand {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+}
+.navbar-brand i {
+  margin-right: 0.5rem;
+  color: var(--accent-color);
+}
+.navbar-brand:hover {
+  text-decoration: none;
+  color: var(--primary-dark-color);
+}
+.nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+.nav-links li {
+  margin-left: 1.5rem;
+}
+.nav-link {
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+.nav-link i {
+  margin-right: 0.3rem;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+.nav-username {
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid transparent;
+  text-align: center;
+}
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+.btn-primary:hover {
+  background-color: var(--primary-dark-color);
+  border-color: var(--primary-dark-color);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+.btn-secondary:hover {
+  background-color: #545b62;
+  border-color: #545b62;
+  transform: translateY(-2px);
+}
+.btn-accent {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+.btn-accent:hover {
+    background-color: var(--accent-hover-color);
+    border-color: var(--accent-hover-color);
+    transform: translateY(-2px);
+}
+
+/* Forms (General - can be specialized as in login.html) */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+.form-control:focus {
+  border-color: var(--primary-color);
+  outline: 0;
+  box-shadow: var(--input-focus-shadow);
+}
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Alerts / Flash Messages */
+.alert {
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.alert i {
+  margin-right: 0.75rem;
+}
+.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+.alert-danger {
+  color: #842029;
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+}
+.alert-warning {
+  color: #664d03;
+  background-color: #fff3cd;
+  border-color: #ffecb5;
+}
+.alert-info {
+  color: #055160;
+  background-color: #cff4fc;
+  border-color: #b6effb;
+}
+.alert-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: inherit;
+}
+
+/* Footer */
+.footer {
+  background-color: #343a40; /* Dark background for footer */
+  color: #f8f9fa;
+  padding: 2rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.footer p {
+  margin: 0.3rem 0;
+}
+.footer i {
+  color: var(--accent-color);
+}
+
+/* Hero Section from index.html - making it more general if needed */
+.hero-section {
+  background-image: url('https://images.unsplash.com/photo-1516979187457-637abb4f9353?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTV8fGVkdWNhdGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 5rem 2rem;
+  text-align: center;
+  border-radius: var(--border-radius);
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+}
+.hero-section * {
+    position: relative; /* Ensure text is above overlay */
+}
+.hero-section h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: white;
+}
+.hero-section p {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Input Methods & Quiz Options (from index.html) - general styling */
+.input-methods {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.input-method, .quiz-options-card {
+  background-color: var(--light-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  flex: 1;
+  min-width: 300px; /* For wrapping */
+}
+.input-method h2, .quiz-options-card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+}
+.input-method h2 i, .quiz-options-card h2 i {
+  margin-right: 0.75rem;
+  color: var(--accent-color);
+}
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.options-grid .form-group {
+    margin-bottom: 0.5rem;
+}
+.options-grid label {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+.submit-button-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+.submit-button {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.8rem 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.submit-button i {
+  margin-right: 0.5rem;
+}
+.submit-button:hover {
+  background-color: var(--accent-hover-color);
+  transform: translateY(-2px);
+}
+
+/* Utility Classes */
+.text-center {
+  text-align: center;
+}
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-3 { margin-bottom: 1rem !important; }
+.mb-4 { margin-bottom: 1.5rem !important; }
+.mb-5 { margin-bottom: 3rem !important; }
+
+.mt-1 { margin-top: 0.25rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.mt-5 { margin-top: 3rem !important; }
+
+.my-4 { margin-top: 1.5rem !important; margin-bottom: 1.5rem !important; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar .container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links {
+    margin-top: 1rem;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links li {
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+  .nav-link {
+    padding: 0.5rem 0;
+  }
+  .input-methods {
+    flex-direction: column;
+  }
+  .hero-section h1 {
+    font-size: 2.2rem;
+  }
+  .hero-section p {
+    font-size: 1rem;
+  }
+}
+
+/* Ensure styles from individual HTML files (like login.html, quiz_view.html, history.html) 
+   are either unique or integrate well with these general styles. 
+   Those specific styles often target elements within their own unique containers. */
