@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail # Exit on error, treat unset variables as error, and fail pipeline if any command fails
 
 echo "Starting Quiz Generator application setup..."
 
@@ -18,7 +19,7 @@ ENV_FILE="$PROJECT_ROOT/.env"
 # Ensure GEMINI_API_KEY is set (using provided key)
 GEMINI_API_KEY_VALUE="AIzaSyByaEYL6YvCbPHOa2jQscEGmfdYrSjiOjw"
 if ! grep -q "^GEMINI_API_KEY=" "$ENV_FILE" 2>/dev/null; then
-    echo "GEMINI_API_KEY=\'${GEMINI_API_KEY_VALUE}\'" >> "$ENV_FILE"
+    echo "GEMINI_API_KEY='${GEMINI_API_KEY_VALUE}'" >> "$ENV_FILE"
     echo "Added GEMINI_API_KEY to .env file."
 else
     # If key exists but has different value, update it (optional, depends on desired behavior)
@@ -30,7 +31,7 @@ fi
 if ! grep -q "^FLASK_SECRET_KEY=" "$ENV_FILE" 2>/dev/null; then
     echo "Generating FLASK_SECRET_KEY..."
     FLASK_SECRET=$(python -c 'import secrets; print(secrets.token_hex(24))')
-    echo "FLASK_SECRET_KEY=\'$FLASK_SECRET\'" >> "$ENV_FILE"
+    echo "FLASK_SECRET_KEY='$FLASK_SECRET'" >> "$ENV_FILE"
     echo "Added FLASK_SECRET_KEY to .env file."
 else
     echo "FLASK_SECRET_KEY already in .env file."
@@ -51,17 +52,20 @@ if [ ! -d "$UPLOADS_FOLDER" ]; then
 fi
 
 # 4. Set Flask environment variables
-export FLASK_APP="app.py"
+export FLASK_APP="main.py" # Changed from app.py to main.py
 export FLASK_ENV="development" # Can be set to 'production' for deployment
 # FLASK_DEBUG=1 can also be set for more verbose development output
 
 # 5. Database Initialization Note
 # Actual database table creation (e.g., via 'flask init-db') will be performed
-# once models are defined and the corresponding CLI command is implemented in app.py.
+# once models are defined and the corresponding CLI command is implemented in main.py.
 # SQLAlchemy will create the SQLite DB file on first access if it doesn't exist.
 echo "Database file will be created in '$INSTANCE_FOLDER' if it doesn't exist upon app start."
-echo "Run 'flask init-db' (once available) to create tables after models are defined."
+echo "Run 'flask init-db' to create tables after models are defined."
 
 # 6. Run the Flask application on port 9000
-echo "Starting Flask application on http://0.0.0.0:9000 ..."
+# The user might run 'python main.py' directly.
+# This line is for running via 'flask run' if preferred.
+echo "Starting Flask application on http://0.0.0.0:9000 (via flask run)..."
+echo "Alternatively, you can run 'python main.py'"
 flask run --host=0.0.0.0 --port=9000
